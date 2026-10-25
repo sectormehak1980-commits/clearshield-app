@@ -894,7 +894,12 @@ function analyzeReportLocally(text: string): Analysis {
     doctorQuestions: ['Do these biomarker levels require medical intervention?'],
     billingDiscrepancies: '',
     biomarkersFlagged: markers,
-    roadmap: [{ period: 'Days 1-7', title: 'Baseline Review', tasks: ['Consult your physician'] }],
+    roadmap: [
+      { period: 'Days 1-7', title: 'Baseline Review', tasks: ['Consult your physician to review these specific numbers', 'Start a daily health tracking log'] },
+      { period: 'Days 8-14', title: 'Dietary Adjustments', tasks: ['Reduce sodium and processed food intake', 'Increase daily water hydration'] },
+      { period: 'Days 15-21', title: 'Activity Integration', tasks: ['Add 20 minutes of light walking daily', 'Monitor energy levels'] },
+      { period: 'Days 22-30', title: 'Follow-up & Maintenance', tasks: ['Review your daily log with your doctor', 'Schedule any follow-up tests required'] }
+    ],
   };
 }
 
@@ -3187,7 +3192,93 @@ export default function Home() {
                   <DisputeLetter key={`letter-${runId}`} lang={lang} billing={analysis.billing} audit={audit} />
                 </>
               )}
+            {/* ========================================== */}
+              {/* DYNAMIC DIET PLAN & 3-SHADE GRAPHS */}
+              {/* ========================================== */}
+              {resultMode === 'report' && (
+                <div className="mt-8 mb-8 space-y-6">
+                  
+                  <div className="grid md:grid-cols-3 gap-6">
+                    {/* Dynamic Diet List */}
+                    <section className="cs-card md:col-span-2 rounded-3xl p-6 md:p-8 bg-emerald-50/70 border border-emerald-200 shadow-sm">
+                      <h3 className="text-base font-bold text-emerald-950 mb-4 flex items-center gap-2">
+                        🥗 Prescribed Diet Plan
+                      </h3>
+                      <ul className="space-y-4">
+                        {(content.healthIndex < 65 
+                          ? [
+                              'Strict low-sodium diet (Under 1500mg/day)', 
+                              'Immediate reduction in saturated fats and red meat', 
+                              'Increase potassium-rich foods (bananas, spinach)',
+                              'Drink at least 2.5 liters of water daily'
+                            ]
+                          : content.healthIndex < 85
+                          ? [
+                              'Moderate sodium reduction (Under 2000mg/day)',
+                              'Switch to whole grains and lean proteins (fish, chicken)',
+                              'Increase soluble fiber (oats, beans)',
+                              'Maintain consistent hydration throughout the day'
+                            ]
+                          : [
+                              'Maintain current balanced macro intake',
+                              'Continue regular hydration (2+ liters/day)',
+                              'Standard vitamin and mineral maintenance',
+                              'Routine portion control for long-term wellness'
+                            ]
+                        ).map((item, i) => (
+                          <li key={i} className="flex items-start gap-3.5 text-sm text-emerald-900">
+                            <span className="w-5 h-5 rounded-full bg-emerald-200 text-emerald-800 font-bold flex items-center justify-center shrink-0 text-[10px] mt-0.5">✓</span>
+                            <span className="leading-relaxed font-medium">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </section>
 
+                    {/* 3-Shade Circle Graph (Dynamic Macros) */}
+                    <section className="cs-card rounded-3xl p-6 md:p-8 bg-white border border-slate-200 shadow-sm">
+                      <h3 className="text-sm font-bold text-slate-900 mb-4 text-center">Daily Macros</h3>
+                      <div className="relative w-24 h-24 mx-auto mb-5">
+                        <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
+                          <circle cx="50" cy="50" r="40" fill="none" stroke="#f59e0b" strokeWidth="12" strokeDasharray="251.2" strokeDashoffset={content.healthIndex < 65 ? "150" : "125.6"} />
+                          <circle cx="50" cy="50" r="40" fill="none" stroke="#0d9488" strokeWidth="12" strokeDasharray="251.2" strokeDashoffset="175.84" style={{ transformOrigin: '50px 50px', transform: 'rotate(180deg)' }} />
+                          <circle cx="50" cy="50" r="40" fill="none" stroke="#e11d48" strokeWidth="12" strokeDasharray="251.2" strokeDashoffset="200.96" style={{ transformOrigin: '50px 50px', transform: 'rotate(288deg)' }} />
+                        </svg>
+                        <div className="absolute inset-0 flex items-center justify-center text-[10px] font-black text-slate-600">DIET</div>
+                      </div>
+                      <div className="space-y-1.5 text-[11px] font-bold text-slate-600">
+                        <div className="flex justify-between items-center"><span className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-amber-500"></div> Carbs</span> <span>{content.healthIndex < 65 ? '40%' : '50%'}</span></div>
+                        <div className="flex justify-between items-center"><span className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-teal-600"></div> Protein</span> <span>30%</span></div>
+                        <div className="flex justify-between items-center"><span className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-rose-600"></div> Fats</span> <span>{content.healthIndex < 65 ? '30%' : '20%'}</span></div>
+                      </div>
+                    </section>
+                  </div>
+
+                  {/* 3-Shade Dynamic Projection Graph */}
+                  <section className="cs-card rounded-3xl p-6 md:p-8 bg-white border border-slate-200 shadow-sm">
+                    <h3 className="text-base font-bold text-slate-900 mb-4">📉 30-Day Risk Reduction Projection</h3>
+                    <p className="text-xs text-slate-500 mb-6">Estimated health risk decline if the roadmap and diet plan are followed strictly.</p>
+                    <div className="h-32 flex items-end gap-3 px-2 border-l border-b border-slate-200 pb-1">
+                      {[
+                        100 - content.healthIndex, 
+                        Math.max(20, 100 - content.healthIndex - 15), 
+                        Math.max(15, 100 - content.healthIndex - 30), 
+                        Math.max(10, 100 - content.healthIndex - 45), 
+                        Math.max(5, 100 - content.healthIndex - 55)
+                      ].map((val, i) => (
+                        <div key={i} className="flex-1 flex flex-col justify-end h-full group relative">
+                           <div className="absolute -top-5 left-1/2 -translate-x-1/2 text-[10px] font-bold text-slate-400">{val}%</div>
+                          <div className="w-full bg-gradient-to-t from-emerald-500 via-teal-400 to-sky-400 rounded-t-md" style={{ height: `${val}%` }}></div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex justify-between mt-2 text-[10px] font-bold text-slate-400 px-2">
+                      <span>Start</span><span>Wk 1</span><span>Wk 2</span><span>Wk 3</span><span className="text-emerald-600 font-bold">Goal ✓</span>
+                    </div>
+                  </section>
+
+                </div>
+              )}
+              {/* ========================================== */}
               <ClinicFinder lang={lang} />
 
               <p className="text-xs text-slate-500 text-center leading-relaxed max-w-2xl mx-auto">{t('disclaimer')}</p>
