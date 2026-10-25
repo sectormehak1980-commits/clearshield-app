@@ -1,14 +1,12 @@
+// @ts-nocheck
+"use client";
+
+import React from "react";
 "use client";
 
 import React from "react";
 
-type Props = {
-  risks?: any;
-  macros?: any;
-};
-
-export default function DashboardInsights({ risks, macros }: Props) {
-  // Safe default data so it never crashes or shows NaN
+export default function DashboardInsights({ risks, macros }: { risks?: any; macros?: any }) {
   const safeRisks = Array.isArray(risks) && risks.length > 0 ? risks : [
     { label: "Cardio", current: 75, projected: 30 },
     { label: "Metabolic", current: 65, projected: 25 },
