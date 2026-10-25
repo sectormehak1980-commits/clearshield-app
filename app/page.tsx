@@ -3353,11 +3353,11 @@ export default function Home() {
                     </div>
                   </section>
                 </div>
-
-                {/* 3-Shade Projection Graph */}
-                <section className="cs-card rounded-3xl p-6 md:p-8 bg-white border border-slate-200 shadow-sm cs-fade-up">
+{/* 3-Shade Projection Graph */}
+                <section className="cs-card rounded-3xl p-6 md:p-8 bg-white border border-slate-200 shadow-sm">
                   <h3 className="text-base font-bold text-slate-900 mb-4">📉 30-Day Risk Reduction Projection</h3>
                   <p className="text-xs text-slate-500 mb-6">Estimated health risk decline if the roadmap and diet plan are followed strictly.</p>
+                  
                   <div className="h-40 flex items-end justify-between gap-4 px-4 border-l-2 border-b-2 border-slate-300 pb-2 bg-slate-50 rounded-2xl">
                     {[
                       { week: 'Start', height: 'h-32', val: '78%' },
@@ -3372,11 +3372,17 @@ export default function Home() {
                       </div>
                     ))}
                   </div>
-                  <div className="flex justify-between mt-2 text-[10px] font-bold text-slate-400 px-2">
-                    <span>Start</span><span>Wk 1</span><span>Wk 2</span><span>Wk 3</span><span className="text-emerald-600 font-extrabold">Goal ✓</span>
+
+                  <div className="flex justify-between mt-3 text-xs font-bold text-slate-600 px-2">
+                    <span>Start</span>
+                    <span>Wk 1</span>
+                    <span>Wk 2</span>
+                    <span>Wk 3</span>
+                    <span className="text-emerald-600 font-extrabold flex items-center gap-1">Goal <span className="text-sm">✓</span></span>
                   </div>
                 </section>
 
+              </div>
               </div>
               {/* ========================================== */}
               {/* ========================================== */}
