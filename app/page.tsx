@@ -48,6 +48,7 @@ import {
   AlertTriangle,
   History,
 } from 'lucide-react';
+import DashboardInsights from "@/components/DashboardInsights";
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 /* -------------------------------------------------------------------------- */
@@ -3353,37 +3354,18 @@ export default function Home() {
                     </div>
                   </section>
                 </div>
-{/* 3-Shade Projection Graph */}
-                <section className="cs-card rounded-3xl p-6 md:p-8 bg-white border border-slate-200 shadow-sm">
-                  <h3 className="text-base font-bold text-slate-900 mb-4">📉 30-Day Risk Reduction Projection</h3>
-                  <p className="text-xs text-slate-500 mb-6">Estimated health risk decline if the roadmap and diet plan are followed strictly.</p>
-                  
-                  <div className="h-40 flex items-end justify-between gap-4 px-4 border-l-2 border-b-2 border-slate-300 pb-2 bg-slate-50 rounded-2xl">
-                    {[
-                      { week: 'Start', height: 'h-32', val: '78%' },
-                      { week: 'Wk 1', height: 'h-24', val: '55%' },
-                      { week: 'Wk 2', height: 'h-16', val: '35%' },
-                      { week: 'Wk 3', height: 'h-10', val: '20%' },
-                      { week: 'Goal', height: 'h-4', val: '8%' }
-                    ].map((item, i) => (
-                      <div key={i} className="flex-1 flex flex-col items-center justify-end h-full group relative">
-                        <span className="text-xs font-bold text-emerald-700 mb-2">{item.val}</span>
-                        <div className={`w-full max-w-[40px] ${item.height} bg-gradient-to-t from-emerald-600 via-teal-500 to-sky-400 rounded-t-xl shadow-md border-t border-white`}></div>
-                      </div>
-                    ))}
-                  </div>
 
-                  <div className="flex justify-between mt-3 text-xs font-bold text-slate-600 px-2">
-                    <span>Start</span>
-                    <span>Wk 1</span>
-                    <span>Wk 2</span>
-                    <span>Wk 3</span>
-                    <span className="text-emerald-600 font-extrabold flex items-center gap-1">Goal <span className="text-sm">✓</span></span>
-                  </div>
-                </section>
+{/* ...Roadmap / Bill Audit / other sections above... */}
 
-              </div>
-              </div>
+{result && (
+  <DashboardInsights
+    key={result.id ?? JSON.stringify(result.risks)}  // forces a fresh render on new analysis
+    risks={result.risks}     // [{ label: "Heart", current: 42, projected: 30 }, ...]
+    macros={result.macros}   // { calories: 1800, protein: 70, carbs: 220, fat: 60 }
+  />
+)}
+
+<ClinicFinder lang={lang} />
               {/* ========================================== */}
               {/* ========================================== */}
               <ClinicFinder lang={lang} />
