@@ -3358,11 +3358,17 @@ export default function Home() {
                 <section className="cs-card rounded-3xl p-6 md:p-8 bg-white border border-slate-200 shadow-sm cs-fade-up">
                   <h3 className="text-base font-bold text-slate-900 mb-4">📉 30-Day Risk Reduction Projection</h3>
                   <p className="text-xs text-slate-500 mb-6">Estimated health risk decline if the roadmap and diet plan are followed strictly.</p>
-                  <div className="h-32 flex items-end gap-3 px-2 border-l border-b border-slate-200 pb-1">
-                    {[78, 55, 35, 20, 8].map((val, i) => (
-                      <div key={i} className="flex-1 flex flex-col justify-end h-full group relative">
-                         <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-[11px] font-bold text-slate-400">{val}%</div>
-                        <div className="w-full bg-gradient-to-t from-emerald-500 via-teal-400 to-sky-400 rounded-t-md" style={{ height: `${val}%` }}></div>
+                  <div className="h-40 flex items-end justify-between gap-4 px-4 border-l-2 border-b-2 border-slate-300 pb-2 bg-slate-50 rounded-2xl">
+                    {[
+                      { week: 'Start', height: 'h-32', val: '78%' },
+                      { week: 'Wk 1', height: 'h-24', val: '55%' },
+                      { week: 'Wk 2', height: 'h-16', val: '35%' },
+                      { week: 'Wk 3', height: 'h-10', val: '20%' },
+                      { week: 'Goal', height: 'h-4', val: '8%' }
+                    ].map((item, i) => (
+                      <div key={i} className="flex-1 flex flex-col items-center justify-end h-full group relative">
+                        <span className="text-xs font-bold text-emerald-700 mb-2">{item.val}</span>
+                        <div className={`w-full max-w-[40px] ${item.height} bg-gradient-to-t from-emerald-600 via-teal-500 to-sky-400 rounded-t-xl shadow-md border-t border-white`}></div>
                       </div>
                     ))}
                   </div>
