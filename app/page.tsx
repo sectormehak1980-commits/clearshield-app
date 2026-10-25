@@ -2692,12 +2692,8 @@ export default function Home() {
   const hasStoredHistory = history.length > 0;
 
   return (
-    <main
-      className="relative min-h-screen bg-gradient-to-b from-slate-100 via-sky-50/60 to-teal-50/40 text-slate-900 selection:bg-teal-600 selection:text-white overflow-x-clip"
-      style={{ backgroundImage: undefined }}
-    >
+    <main className="relative min-h-screen bg-gradient-to-b from-slate-100 via-sky-50/60 to-white">
       <style>{GLOBAL_CSS}</style>
-
       {/* Watermark layers */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 print:hidden" style={{ backgroundImage: WATERMARK }} />
       <div aria-hidden="true" className="pointer-events-none absolute -top-24 -right-24 w-[520px] h-[520px] rounded-full bg-teal-300/20 blur-3xl print:hidden" />
